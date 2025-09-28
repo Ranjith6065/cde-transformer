@@ -1,0 +1,66 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CDE Transformer API",
+    "version": "1.0.0",
+    "description": "Aggregates file metadata from multiple CDEs."
+  },
+  "paths": {
+    "/v1/files": {
+      "get": {
+        "summary": "Get aggregated file metadata from CDEs",
+        "parameters": [
+          {
+            "name": "providers",
+            "in": "query",
+            "description": "Comma-separated list of CDE providers (bim360,procore,viewpoint,trimble,accnoex)",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "project",
+            "in": "query",
+            "description": "Project ID",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Aggregated file list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProviderFile"
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Missing parameters" },
+          "500": { "description": "Server error" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ProviderFile": {
+        "type": "object",
+        "properties": {
+          "source": { "type": "string", "enum": ["bim360", "procore", "viewpoint", "trimble", "accnoex"] },
+          "projectId": { "type": "string" },
+          "fileId": { "type": "string" },
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "size": { "type": "integer" },
+          "downloadUrl": { "type": "string", "format": "uri" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["source", "projectId", "fileId", "name", "version", "size", "downloadUrl", "updatedAt"]
+      }
+    }
+  }
+}
