@@ -1,5 +1,3 @@
-// For hot-reload on save during development, use nodemon:
-//   npx nodemon src/index.ts
 const express = require('express');
 const filesRoute = require('./routes/files');
 const swaggerUi = require('swagger-ui-express');

@@ -13,7 +13,6 @@ router.get('/v1/files', async (req:any, res:any) => {
       return res.status(400).json({ error: 'Missing providers or project parameter' });
     }
     const providerNames = providersParam.split(',');
-    // In real use, get auth from req.headers or .env
     const auth = {
     token: 'initial-token',
     tokenExpiry: Date.now() + 3600000,
@@ -23,11 +22,9 @@ router.get('/v1/files', async (req:any, res:any) => {
       return this.token;
     }
     };
-    // Fetch from all providers concurrently
     const results = await Promise.all(
       providerNames.map((name:any) => getProvider(name).fetchFiles(projectId, auth))
     );
-    // Flatten, dedupe, sort
     let files = results.flat();
     files = resolveDuplicates(files);
     files.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());

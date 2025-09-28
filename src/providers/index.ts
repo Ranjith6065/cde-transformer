@@ -1,4 +1,3 @@
-// Factory to get provider instances by name
 const { Bim360Provider } = require('./Bim360Provider');
 const { ProcoreProvider } = require('./ProcoreProvider');
 const { ViewpointProvider } = require('./ViewpointProvider');

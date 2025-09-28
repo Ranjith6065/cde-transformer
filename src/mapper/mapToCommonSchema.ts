@@ -1,6 +1,5 @@
 import type { ProviderFile } from '../providers/ICDEProvider';
 
-// Example mappers for two providers
 function mapBim360ToCommon(bimFile: any): ProviderFile {
   return {
     source: 'bim360',
